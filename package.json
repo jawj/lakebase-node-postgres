@@ -1,0 +1,17 @@
+{
+  "name": "node-postgres",
+  "version": "0.1.0",
+  "description": "Lakebase connection example using node-postgres",
+  "type": "module",
+  "scripts": {
+    "simple": "node simple.js"
+  },
+  "keywords": [],
+  "author": "George MacKerron",
+  "license": "MIT",
+  "packageManager": "pnpm@10.15.1",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "pg": "^8.16.3"
+  }
+}
