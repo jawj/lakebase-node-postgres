@@ -1,7 +1,3 @@
-/**
- * All versions rely on this basic function to get a new OAuth token using the
- * client credentials flow.
- */
 
 export async function getClientCredentials() {
   // note: PGUSER, PGHOST, PGDATABASE and PGSSLMODE will be read direcly by node-postgres, if set

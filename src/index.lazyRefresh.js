@@ -1,39 +1,20 @@
 /**
- * In this version, we refresh the auth token on-demand in a long-running script,
- * caching it in memory until just before it expires. We make use of node-postgres'
- * support for passing a function to the `password` config option.
+ * In this version, we refresh the auth token on-demand in a long-running
+ * script, caching it in memory until just before it expires. We make use of
+ * node-postgres' support for passing a function as the `password` option.
  */
 
 import 'dotenv/config';
 import { Client } from 'pg';
-
-// the key bit happens in this imported function, but now we add caching on top
 import { getClientCredentials } from './getClientCredentials.js';
+import { lazilyRefreshedCredentials } from './lazilyRefreshedCredentials.js';
 
-function onDemandRefreshedCredentials(asyncRefreshFn) {
-  const expiryBufferSeconds = 120;
-  const cache = { expiry: -1, token: '' };
+// don't call lazilyRefreshedCredentials more than once: we must use the same
+// returned function in every loop iteration
+const cachedCredentialFn = lazilyRefreshedCredentials(getClientCredentials);
 
-  return async function () {
-    if (cache.expiry > performance.now()) {
-      process.stdout.write('Using cached auth token ...\n');
-
-    } else {
-      process.stdout.write('Refreshing auth token ...\n');
-      const { access_token, expires_in } = await asyncRefreshFn();
-      cache.token = access_token;
-      cache.expiry = performance.now() + (expires_in - expiryBufferSeconds) * 1000;
-    }
-
-    return cache.token;
-  }
-}
-
-// must use the same returned function in every loop iteration to get caching
-const cachedCredentialFn = onDemandRefreshedCredentials(getClientCredentials);
 const repeatMinutes = 10;
-
-while (true) {
+while (true) { // Ctrl-C to exit
   const client = new Client({ password: cachedCredentialFn });
 
   process.stdout.write('Connecting ...\n');
