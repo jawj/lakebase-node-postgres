@@ -1,5 +1,6 @@
 
-export function lazilyRefreshedCredentials(asyncRefreshFn) {
+// @ts-ignore: avoid noImplicitAny warning for asyncRefreshFn if type-checking JS
+export function credentialsLazilyRefreshed(asyncRefreshFn) {
   const expiryBufferSeconds = 120;
   const cache = { expiry: -1, token: '' };
 

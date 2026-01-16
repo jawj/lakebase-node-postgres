@@ -6,12 +6,12 @@
 
 import 'dotenv/config';
 import { Client } from 'pg';
-import { getClientCredentials } from './getClientCredentials.js';
-import { lazilyRefreshedCredentials } from './lazilyRefreshedCredentials.js';
+import { fetchCredentials } from './credentials/fetchCredentials.js';
+import { credentialsLazilyRefreshed } from './credentials/credentialsLazilyRefreshed.js';
 
-// don't call lazilyRefreshedCredentials more than once: we must use the same
+// don't call credentialsLazilyRefreshed more than once: we must use the same
 // returned function in every loop iteration
-const cachedCredentialFn = lazilyRefreshedCredentials(getClientCredentials);
+const cachedCredentialFn = credentialsLazilyRefreshed(fetchCredentials);
 
 const repeatMinutes = 10;
 while (true) { // Ctrl-C to exit

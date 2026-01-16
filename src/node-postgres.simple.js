@@ -7,10 +7,10 @@ import 'dotenv/config'; // load .env file into process.env
 import { Client } from 'pg';
 
 // the important bit happens in this imported function
-import { getClientCredentials } from './getClientCredentials.js';
+import { fetchCredentials } from './credentials/fetchCredentials.js';
 
 process.stdout.write('Getting auth token ...\n');
-const { access_token } = await getClientCredentials();
+const { access_token } = await fetchCredentials();
 const client = new Client({ password: access_token });
 
 process.stdout.write('Connecting ...\n');

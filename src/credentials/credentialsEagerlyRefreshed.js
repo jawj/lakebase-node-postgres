@@ -1,5 +1,6 @@
 
-export async function eagerlyRefreshedCredentials(asyncRefreshFn) {
+// @ts-ignore: avoid noImplicitAny warning for asyncRefreshFn if type-checking JS
+export async function credentialsEagerlyRefreshed(asyncRefreshFn) {
   const expiryBufferSeconds = 120;
   let cachedToken = '';
 

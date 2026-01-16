@@ -1,5 +1,5 @@
 
-export async function getClientCredentials() {
+export async function fetchCredentials() {
   // note: PGUSER, PGHOST, PGDATABASE and PGSSLMODE will be read direcly by node-postgres, if set
   const { PGUSER, CLIENT_SECRET, TOKEN_URL } = process.env;
   if (!TOKEN_URL || !PGUSER || !CLIENT_SECRET) throw new Error('Required in .env: TOKEN_URL, PGUSER, CLIENT_SECRET');
