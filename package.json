@@ -4,7 +4,7 @@
   "description": "Lakebase connection example using node-postgres",
   "type": "module",
   "scripts": {
-    "simple": "node simple.js"
+    "simple": "node src/index.simple.js"
   },
   "keywords": [],
   "author": "George MacKerron",
@@ -12,6 +12,9 @@
   "packageManager": "pnpm@10.15.1",
   "dependencies": {
     "dotenv": "^17.2.3",
-    "pg": "^8.16.3"
+    "pg": "^8.17.1"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.16.0"
   }
 }
