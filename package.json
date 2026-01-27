@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "description": "Lakebase connection example using node-postgres",
   "type": "module",
-  "scripts": {
-    "simple": "node src/index.simple.js"
-  },
   "keywords": [],
   "author": "George MacKerron",
   "license": "MIT",
@@ -16,6 +13,10 @@
     "postgres": "^3.4.8"
   },
   "devDependencies": {
+    "@types/bun": "^1.3.6",
     "@types/pg": "^8.16.0"
+  },
+  "scripts": {
+    "simple": "bun run src/simple.js"
   }
 }
