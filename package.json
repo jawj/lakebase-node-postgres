@@ -1,12 +1,12 @@
 {
-  "name": "node-postgres",
+  "name": "lakebase-js",
   "version": "0.1.0",
-  "description": "Lakebase connection example using node-postgres",
+  "description": "Lakebase JS/TS connection examples",
   "type": "module",
   "keywords": [],
   "author": "George MacKerron",
   "license": "MIT",
-  "packageManager": "pnpm@10.15.1",
+  "packageManager": "pnpm@10.28.2",
   "dependencies": {
     "dotenv": "^17.2.3",
     "hono": "^4.11.7",

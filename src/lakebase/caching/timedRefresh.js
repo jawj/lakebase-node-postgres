@@ -12,7 +12,6 @@ export async function cachedWithTimedRefresh(asyncRefreshFn, earlyRefreshSeconds
   let cachedToken = '';
 
   async function refreshToken() {
-    console.info('Refreshing auth token ...');
     const { token, expires } = await asyncRefreshFn();
     cachedToken = token;
     const refreshAfterMs = expires.getTime() - Date.now() - 1000 * earlyRefreshSeconds;

@@ -16,10 +16,9 @@ export function cachedWithOnDemandRefresh(asyncRefreshFn, earlyRefreshSeconds = 
   let cachedToken = Promise.resolve('');
   
   async function refreshToken() {
-    console.info('Refreshing auth token ...');
     refreshAfter = farFutureEpoch; // no more refreshes until this refresh completes
     const { token, expires } = await asyncRefreshFn();
-    refreshAfter = expires.getTime() - Date.now() - 1000 * earlyRefreshSeconds;
+    refreshAfter = expires.getTime() - 1000 * earlyRefreshSeconds;
     return token;
   }
 

@@ -6,7 +6,7 @@
  * @returns {Promise<{ token: string, expires: Date }>} Lakebase Postgres credentials
  */
 export async function fetchPgCredentials(apiUrl, apiToken, endpoint) {
-  console.info('Fetching Lakebase Postgres auth token ...');
+  console.info(`${new Date().toISOString()} Fetching Lakebase Postgres auth token ...`);
 
   if (typeof apiToken === 'function') apiToken = await apiToken();
   const response = await fetch(apiUrl, {
@@ -26,5 +26,7 @@ export async function fetchPgCredentials(apiUrl, apiToken, endpoint) {
   
   const { token } = credentials;
   const expires = new Date(credentials.expire_time); // expire_time is an ISO8601 string
+
+  console.info(`${new Date().toISOString()} Lakebase Postgres auth token fetched, expires at ${expires.toISOString()}`);
   return { token, expires };
 }

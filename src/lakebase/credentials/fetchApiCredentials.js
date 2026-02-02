@@ -6,7 +6,7 @@
  * @returns {Promise<{ token: string, expires: Date }>} OAuth credentials
  */
 export async function fetchApiCredentials(oidcUrl, clientId, clientSecret) {
-  console.info('Fetching API auth token ...');
+  console.info(`${new Date().toISOString()} Fetching API auth token ...`);
   
   const t0 = Date.now();
   const auth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
@@ -28,5 +28,7 @@ export async function fetchApiCredentials(oidcUrl, clientId, clientSecret) {
 
   const token = credentials.access_token;
   const expires = new Date(t0 + 1000 * credentials.expires_in); // expires_in is in seconds
+  
+  console.info(`${new Date().toISOString()} Lakebase API auth token fetched, expires around ${expires.toISOString()}`);
   return { token, expires };
 }
