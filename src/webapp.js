@@ -3,10 +3,10 @@ import { Hono } from 'hono';
 import { Pool } from 'pg';
 import postgres from 'postgres';
 
-import { fetchApiCredentials } from './credentials/fetchApiCredentials.js';
-import { fetchPgCredentials } from './credentials/fetchPgCredentials.js';
-import { withRetries } from './support/withRetries.js';
-import { cachedWithOnDemandRefresh } from './caching/onDemandRefresh.js';
+import { fetchApiCredentials } from './lakebase/credentials/fetchApiCredentials.js';
+import { fetchPgCredentials } from './lakebase/credentials/fetchPgCredentials.js';
+import { cachedWithOnDemandRefresh } from './lakebase/caching/onDemandRefresh.js';
+import { withRetries } from './lakebase/retry.js';
 
 import {
   oidcUrl,
@@ -18,7 +18,7 @@ import {
   endpoint,
   pgHost,
   pgDb,
-} from './support/config.js';
+} from './lakebase/config.js';
 
 const apiCredentialsFn = () => fetchApiCredentials(oidcUrl, clientId, clientSecret);
 const getApiToken = cachedWithOnDemandRefresh(withRetries(apiCredentialsFn));
@@ -31,7 +31,7 @@ const postgresCommonParams = {
   host: pgHost,
   database: pgDb,
   username: clientId,
-  password: getPostgresToken,
+  password: getPostgresToken, // async function defined above
 };
 
 const app = new Hono();

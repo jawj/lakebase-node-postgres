@@ -18,6 +18,6 @@
     "@types/pg": "^8.16.0"
   },
   "scripts": {
-    "simple": "bun run src/simple.js"
+    "webapp": "bun run src/webapp.js"
   }
 }

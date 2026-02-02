@@ -18,17 +18,17 @@ export const { CLIENT_ID: clientId } = env;
 if (!env.CLIENT_SECRET) throw new Error(makeErrMsg('CLIENT_SECRET'));
 export const { CLIENT_SECRET: clientSecret } = env;
 
-if (!env.PG_PROJECT) throw new Error(makeErrMsg('PG_PROJECT'));
-export const { PG_PROJECT: project } = env;
+if (!env.LAKEBASE_PROJECT) throw new Error(makeErrMsg('LAKEBASE_PROJECT'));
+export const { LAKEBASE_PROJECT: project } = env;
 
-if (!env.PG_BRANCH) throw new Error(makeErrMsg('PG_BRANCH'));
-export const { PG_BRANCH: branch } = env;
+if (!env.LAKEBASE_BRANCH) throw new Error(makeErrMsg('LAKEBASE_BRANCH'));
+export const { LAKEBASE_BRANCH: branch } = env;
 
-if (!env.PG_ENDPOINT) throw new Error(makeErrMsg('PG_ENDPOINT'));
-export const { PG_ENDPOINT: endpoint } = env;
+if (!env.LAKEBASE_ENDPOINT) throw new Error(makeErrMsg('LAKEBASE_ENDPOINT'));
+export const { LAKEBASE_ENDPOINT: endpoint } = env;
 
-if (!env.PGHOST) throw new Error(makeErrMsg('PGHOST'));
-export const { PGHOST: pgHost } = env;
+if (!env.PG_HOST) throw new Error(makeErrMsg('PG_HOST'));
+export const { PG_HOST: pgHost } = env;
 
-if (!env.PGDATABASE) throw new Error(makeErrMsg('PGDATABASE'));
-export const { PGDATABASE: pgDb } = env;
+if (!env.PG_DATABASE) throw new Error(makeErrMsg('PG_DATABASE'));
+export const { PG_DATABASE: pgDb } = env;
