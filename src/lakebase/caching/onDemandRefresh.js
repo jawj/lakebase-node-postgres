@@ -2,8 +2,8 @@ const pastEpoch = -Infinity;
 const farFutureEpoch = Infinity;
 
 /**
- * Returns an async function that provides credentials that are refreshed on
- * demand if close to expiry
+ * Returns an async function that provides a token that's refreshed on demand
+ * if close to expiry
  * @param {() => Promise<{ token: string; expires: Date; }>} asyncRefreshFn
  * Async function to fetch new credentials + expiry info
  * @param {number} earlyRefreshSeconds

@@ -1,6 +1,6 @@
 /**
- * Returns a function that provides credentials which are eagerly refreshed
- * in the background before they expire
+ * Returns a function that provides a token that's eagerly refreshed in the
+ * background before it expires
  * @param {() => Promise<{ token: string; expires: Date; }>} asyncRefreshFn
  * Async function to fetch new credentials + expiry info
  * @param {number} earlyRefreshSeconds

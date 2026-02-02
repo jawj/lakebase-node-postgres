@@ -1,5 +1,5 @@
 /**
- * Fetch Lakebase Postgres credentials from Lakebase token endpoint.
+ * Fetch Lakebase Postgres credentials from Lakebase token endpoint
  * @param {string} apiUrl Lakebase Postgres token endpoint URL
  * @param {string | (() => string | Promise<string>)} apiToken OAuth access token
  * @param {string} endpoint Lakebase endpoint identifier: `projects/${projectId}/branches/${branchId}/endpoints/${endpointId}`

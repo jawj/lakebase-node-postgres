@@ -1,5 +1,5 @@
 /**
- * Fetch OAuth API credentials from Databricks OIDC endpoint.
+ * Fetch OAuth API credentials from Databricks OIDC endpoint
  * @param {string} oidcUrl OIDC token endpoint URL
  * @param {string} clientId OAuth client ID
  * @param {string} clientSecret OAuth client secret
