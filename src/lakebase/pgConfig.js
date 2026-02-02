@@ -19,6 +19,7 @@ const commonPgConfig = {
   user: clientId,
   host: pgHost,
   database: pgDb,
+  ssl: { rejectUnauthorized: true },
 };
 
 /**

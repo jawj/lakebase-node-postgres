@@ -1,10 +1,13 @@
 import { Hono } from 'hono';
+import { logger } from 'hono/logger';
 import { Pool } from 'pg';
 import postgres from 'postgres';
 import { timedRefreshPgConfig, onDemandPgConfig, uncachedPgConfig } from './lakebase/pgConfig';
 
 const pgConfig = await timedRefreshPgConfig();
+
 const app = new Hono();
+app.use(logger());
 
 app.get('/', (ctx) =>
   ctx.html(`<!DOCTYPE html><title>Lakebase Postgres auth examples</title>
@@ -17,12 +20,10 @@ app.get('/', (ctx) =>
 
 // --- node-postgres ---
 
-const pool = new Pool({
-  ...pgConfig,
-  ssl: { rejectUnauthorized: true }, // validate using OS CA certs
-  max: 3,
-});
-pool.on('error', (err, client) => `Postgres pool error: ${err.message}`);
+const pool = new Pool(pgConfig);
+
+// don't let a PG disconnection crash the app
+pool.on('error', (err, client) => console.warn(`Postgres pool error: ${err.message}`));
 
 app.get('/node-postgres', async (ctx) => {
   const { rows } = await pool.query('SELECT now()');
@@ -33,11 +34,7 @@ app.get('/node-postgres', async (ctx) => {
 
 // --- postgres.js ---
 
-const sql = postgres({
-  ...pgConfig,
-  ssl: { rejectUnauthorized: true }, // validate using OS CA certs
-  max: 3,
-});
+const sql = postgres(pgConfig);
 
 app.get('/postgres.js', async (ctx) => {
   const [{ now }] = await sql`SELECT now()`;
@@ -49,11 +46,11 @@ app.get('/postgres.js', async (ctx) => {
 
 const bunSql = new Bun.SQL({
   ...pgConfig,
-  tls: {
-    rejectUnauthorized: true, // validate using OS CA certs
+  ssl: {
+    ...pgConfig.ssl,
     serverName: pgConfig.host, // see https://github.com/oven-sh/bun/issues/26369
   },
-  max: 3, // by default, Bun connects 10 clients IMMEDIATELY
+  max: 3, // note: by default, Bun connects 10 clients eagerly, on startup
 });
 
 app.get('Bun.SQL', async (ctx) => {
