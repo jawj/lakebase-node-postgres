@@ -1,7 +1,7 @@
 {
   "js/ts.implicitProjectConfig.checkJs": true,
   "prettier.singleQuote": true,
-  "prettier.printWidth": 120,
+  "prettier.printWidth": 100,
   "prettier.tabWidth": 2,
   "prettier.useTabs": false,
 }

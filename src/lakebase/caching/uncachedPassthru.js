@@ -1,5 +1,5 @@
 /**
- * Returns an async function that fetches new credentials each time, and simply
+ * Returns an async function that fetches new credentials each time and simply
  * picks out the token field
  * @param {() => Promise<{ token: string }>} asyncRefreshFn
  * Async function to fetch new credentials + expiry info

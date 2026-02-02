@@ -19,13 +19,15 @@ if (!env.CLIENT_SECRET) throw new Error(makeErrMsg('CLIENT_SECRET'));
 export const { CLIENT_SECRET: clientSecret } = env;
 
 if (!env.LAKEBASE_PROJECT) throw new Error(makeErrMsg('LAKEBASE_PROJECT'));
-export const { LAKEBASE_PROJECT: project } = env;
+const { LAKEBASE_PROJECT: project } = env;
 
 if (!env.LAKEBASE_BRANCH) throw new Error(makeErrMsg('LAKEBASE_BRANCH'));
-export const { LAKEBASE_BRANCH: branch } = env;
+const { LAKEBASE_BRANCH: branch } = env;
 
 if (!env.LAKEBASE_ENDPOINT) throw new Error(makeErrMsg('LAKEBASE_ENDPOINT'));
-export const { LAKEBASE_ENDPOINT: endpoint } = env;
+const { LAKEBASE_ENDPOINT: endpoint } = env;
+
+export const projectBranchEndpoint = `projects/${project}/branches/${branch}/endpoints/${endpoint}`;
 
 if (!env.PG_HOST) throw new Error(makeErrMsg('PG_HOST'));
 export const { PG_HOST: pgHost } = env;

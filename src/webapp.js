@@ -13,9 +13,7 @@ import {
   pgTokenUrl,
   clientId,
   clientSecret,
-  project,
-  branch,
-  endpoint,
+  projectBranchEndpoint,
   pgHost,
   pgDb,
 } from './lakebase/config.js';
@@ -23,8 +21,7 @@ import {
 const apiCredentialsFn = () => fetchApiCredentials(oidcUrl, clientId, clientSecret);
 const getApiToken = cachedWithOnDemandRefresh(withRetries(apiCredentialsFn));
 
-const fullEndpoint = `projects/${project}/branches/${branch}/endpoints/${endpoint}`;
-const pgCredentialsFn = () => fetchPgCredentials(pgTokenUrl, getApiToken, fullEndpoint);
+const pgCredentialsFn = () => fetchPgCredentials(pgTokenUrl, getApiToken, projectBranchEndpoint);
 const getPostgresToken = cachedWithOnDemandRefresh(withRetries(pgCredentialsFn));
 
 const postgresCommonParams = {
