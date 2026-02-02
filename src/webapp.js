@@ -1,19 +1,19 @@
 import { Hono } from 'hono';
 import { Pool } from 'pg';
 import postgres from 'postgres';
-import { onDemandPgConfig, timedRefreshPgConfig } from './lakebase/pgConfig';
+import { timedRefreshPgConfig, onDemandPgConfig, uncachedPgConfig } from './lakebase/pgConfig';
 
-const pgConfig = onDemandPgConfig();
+const pgConfig = await timedRefreshPgConfig();
 const app = new Hono();
 
-app.get('/', ctx => {
-  return ctx.html(`<!DOCTYPE html><title>Lakebase Postgres auth examples</title>
+app.get('/', (ctx) =>
+  ctx.html(`<!DOCTYPE html><title>Lakebase Postgres auth examples</title>
     <ul>
       <li><a href="/node-postgres">node-postgres</a>
       <li><a href="/postgres.js">postgres.js</a>
       <li><a href="/Bun.SQL">Bun.SQL</a>
-    </ul>`);
-});
+    </ul>`)
+);
 
 // --- node-postgres ---
 
