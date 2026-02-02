@@ -9,6 +9,7 @@
   "packageManager": "pnpm@10.15.1",
   "dependencies": {
     "dotenv": "^17.2.3",
+    "hono": "^4.11.7",
     "pg": "^8.17.1",
     "postgres": "^3.4.8"
   },

@@ -1,18 +1,18 @@
 /**
  * Wraps an async function with basic retry logic
- * @template ReturnType The type returned by the async function
- * @param {() => Promise<ReturnType>} asyncFn
+ * @template ReturnType The type returned by the function
+ * @param {() => Promise<ReturnType>} fn
  * The async function to execute
- * @param {number[]} retrySchedule
+ * @param {number[]} retryScheduleMs
  * Array of delays (in ms) between retry attempts
  * @returns {() => Promise<ReturnType>}
  * The result of the async function
  */
-export function withRetries(asyncFn, retrySchedule = [480, 2400, 12000, 60000, 300000]) {
+export function withRetries(fn, retryScheduleMs = [480, 2400, 12000, 60000, 300000]) {
   return async function () {
-    for (const retryDelay of retrySchedule) {
+    for (const retryDelay of retryScheduleMs) {
       try {
-        return await asyncFn();
+        return await fn();
 
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
@@ -20,6 +20,6 @@ export function withRetries(asyncFn, retrySchedule = [480, 2400, 12000, 60000, 3
         await new Promise(resolve => setTimeout(resolve, retryDelay));
       }
     }
-    return await asyncFn(); // call again rather than rethrowing err to maintain stack trace
+    return await fn(); // call again rather than rethrowing err: maintains stack trace
   };
 }
