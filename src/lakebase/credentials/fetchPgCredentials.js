@@ -15,7 +15,10 @@ export async function fetchPgCredentials(apiUrl, apiToken, endpoint) {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apiToken}`,
     },
-    body: JSON.stringify({ endpoint }),
+    body: JSON.stringify({
+      // https://openapi.dev.databricks.com/api/workspace/postgres/generatedatabasecredential shows other parameters
+      endpoint
+    }),
   });
   const credentials = await response.json();
 
@@ -23,7 +26,7 @@ export async function fetchPgCredentials(apiUrl, apiToken, endpoint) {
     const errorMessage = `Couldn't get Lakebase Postgres OAuth token: ${credentials.error_code} ${credentials.message}`;
     throw new Error(`Couldn't get Lakebase Postgres OAuth token: ${errorMessage}`);
   }
-  
+
   const { token } = credentials;
   const expires = new Date(credentials.expire_time); // expire_time is an ISO8601 string
 

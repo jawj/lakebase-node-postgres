@@ -8,12 +8,12 @@
  * You will normally pick only one of these, of course!
  * 
  * For a web app of this sort the timedRefreshConfig is most suitable, since
- * by eagerly refreshing Lakebase credentials on a schedule it minimises worst-
- * case response latency.
+ * by eagerly refreshing Lakebase credentials on a schedule it minimises the
+ * worst-case response latency.
  */
 
 
-// --- common Postgres setup ---
+// --- Postgres config setup ---
 
 import { timedRefreshConfig } from './lakebase/pgConfig.js';
 const pgConfig = await timedRefreshConfig();
@@ -59,8 +59,8 @@ const pool = new Pool({
   max: 10,
 });
 
-// surface errors on idle clients, which include scale-to-zero events, and continue
-pool.on('error', (err, client) => console.warn(`Postgres error on idle client: ${err.message}`));
+// surface errors on idle clients, which include harmless scale-to-zero events, and continue
+pool.on('error', (err, _client) => console.warn(`Error emitted by idle Postgres client: ${err.message}`));
 
 app.get('/node-postgres', async (ctx) => {
   const { rows } = await pool.query('SELECT now()');

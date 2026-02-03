@@ -20,8 +20,9 @@
     "@types/deno": "^2.5.0"
   },
   "scripts": {
-    "webapp-bun": "bun run src/webapp.js",
-    "webapp-deno": "deno run --env-file=.env --allow-env --allow-net src/webapp.js",
-    "webapp-node": "node -r dotenv-expand/config src/webapp.js"
+    "webapp-bun": "bun run src/webApp.js",
+    "webapp-deno": "deno run --env-file=.env --allow-env --allow-net src/webApp.js",
+    "webapp-node": "node -r dotenv-expand/config src/webApp.js",
+    "bgtask-bun": "bun run src/backgroundTask.js"
   }
 }
