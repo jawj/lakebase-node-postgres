@@ -19,8 +19,10 @@ const commonPgConfig = {
   user: clientId,
   host: pgHost,
   database: pgDb,
-  ssl: { rejectUnauthorized: true },
+  ssl: { rejectUnauthorized: false },
 };
+
+const apiCredentialsFn = () => fetchApiCredentials(oidcUrl, clientId, clientSecret);
 
 /**
  * Postgres configuration parameters including as async password function that
@@ -29,8 +31,7 @@ const commonPgConfig = {
  * or background jobs.
  * @returns Postgres configuration parameters
  */
-export function onDemandPgConfig() {
-  const apiCredentialsFn = () => fetchApiCredentials(oidcUrl, clientId, clientSecret);
+export function onDemandConfig() {
   const onDemandApiToken = cachedWithOnDemandRefresh(withRetries(apiCredentialsFn));
   const onDemandPgCredentialsFn = () => fetchPgCredentials(pgTokenUrl, onDemandApiToken, projectBranchEndpoint);
   const onDemandPostgresToken = cachedWithOnDemandRefresh(withRetries(onDemandPgCredentialsFn));
@@ -47,8 +48,7 @@ export function onDemandPgConfig() {
  * time-sensitive applications, such as user-facing websites and APIs.
  * @returns Postgres configuration parameters
  */
-export async function timedRefreshPgConfig() {
-  const apiCredentialsFn = () => fetchApiCredentials(oidcUrl, clientId, clientSecret);
+export async function timedRefreshConfig() {
   const timedRefreshApiToken = await cachedWithTimedRefresh(withRetries(apiCredentialsFn));
   const timedRefreshPgCredentialsFn = () => fetchPgCredentials(pgTokenUrl, timedRefreshApiToken, projectBranchEndpoint);
   const timedRefreshPostgresToken = await cachedWithTimedRefresh(withRetries(timedRefreshPgCredentialsFn));
@@ -64,8 +64,7 @@ export async function timedRefreshPgConfig() {
  * brief, one-shot applications such as shell scripts.
  * @returns Postgres configuration parameters
  */
-export function uncachedPgConfig() {
-  const apiCredentialsFn = () => fetchApiCredentials(oidcUrl, clientId, clientSecret);
+export function uncachedConfig() {
   return {
     ...commonPgConfig,
     password: uncached(withRetries(apiCredentialsFn)),

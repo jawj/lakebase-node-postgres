@@ -1,5 +1,3 @@
-import 'dotenv/config'; // loads .env file into process.env
-
 /** @param {string} varName Missing environment variable name */
 const makeErrMsg = varName =>
   `Missing process.env.${varName} (check .env.example for required environment variables).`;
