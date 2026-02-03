@@ -1,5 +1,6 @@
 /**
- * Fetch OAuth API credentials from Databricks OIDC endpoint
+ * Fetches OAuth API credentials from Databricks OIDC endpoint
+ * Reference: https://docs.databricks.com/aws/en/dev-tools/auth/oauth-m2m#generate-a-workspace-level-access-token
  * @param {string} oidcUrl OIDC token endpoint URL
  * @param {string} clientId OAuth client ID
  * @param {string} clientSecret OAuth client secret

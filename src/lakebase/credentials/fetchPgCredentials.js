@@ -1,5 +1,6 @@
 /**
- * Fetch Lakebase Postgres credentials from Lakebase token endpoint
+ * Fetches Lakebase Postgres credentials from Lakebase token endpoint.
+ * Reference: https://openapi.dev.databricks.com/api/workspace/postgres/generatedatabasecredential
  * @param {string} apiUrl Lakebase Postgres token endpoint URL
  * @param {string | (() => string | Promise<string>)} apiToken OAuth access token
  * @param {string} endpoint Lakebase endpoint identifier: `projects/${projectId}/branches/${branchId}/endpoints/${endpointId}`
@@ -15,10 +16,7 @@ export async function fetchPgCredentials(apiUrl, apiToken, endpoint) {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apiToken}`,
     },
-    body: JSON.stringify({
-      // https://openapi.dev.databricks.com/api/workspace/postgres/generatedatabasecredential shows other parameters
-      endpoint
-    }),
+    body: JSON.stringify({ endpoint }), // other parameters are available: see reference link above
   });
   const credentials = await response.json();
 
