@@ -19,7 +19,7 @@ const commonPgConfig = {
   user: clientId,
   host: pgHost,
   database: pgDb,
-  ssl: { rejectUnauthorized: false },
+  ssl: { rejectUnauthorized: true },
 };
 
 const apiCredentialsFn = () => fetchApiCredentials(oidcUrl, clientId, clientSecret);

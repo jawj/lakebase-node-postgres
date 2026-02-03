@@ -23,6 +23,8 @@
     "webapp-bun": "bun run src/webApp.js",
     "webapp-deno": "deno run --env-file=.env --allow-env --allow-net src/webApp.js",
     "webapp-node": "node -r dotenv-expand/config src/webApp.js",
-    "bgtask-bun": "bun run src/backgroundTask.js"
+    "bgtask-bun": "bun run src/backgroundTask.js",
+    "bgtask-deno": "deno run --env-file=.env --allow-env --allow-net src/backgroundTask.js",
+    "bgtask-node": "node -r dotenv-expand/config src/backgroundTask.js"
   }
 }
