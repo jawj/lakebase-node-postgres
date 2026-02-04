@@ -1,5 +1,6 @@
 /**
- * This basic web app shows how to use Lakebase with the 3 major JS drivers:
+ * This basic web app shows how to use Lakebase Postgres with the 3 major JS
+ * drivers:
  * 
  * - node-postgres (`import 'pg'`)
  * - postgres.js (`import 'postgres'`)
@@ -54,7 +55,7 @@ import { Pool } from 'pg';
 
 const pool = new Pool({
   ...pgConfig,
-  connectionTimeoutMillis: 10000,
+  connectionTimeoutMillis: 30000,  // default is 0 = no timeout, but 30s matches other drivers' defaults
   idleTimeoutMillis: 270000, // suggested: slightly shorter than your scale-to-zero time
   max: 10,
 });
@@ -75,7 +76,6 @@ import postgres from 'postgres';
 
 const sql = postgres({
   ...pgConfig,
-  connect_timeout: 10,
   idle_timeout: 270, // suggested: slightly shorter than your scale-to-zero time
   max: 10,
 });
@@ -95,7 +95,6 @@ if (typeof Bun !== 'undefined') {
       ...pgConfig.ssl,
       serverName: pgConfig.host, // see https://github.com/oven-sh/bun/issues/26369
     },
-    connectionTimeout: 10,
     idleTimeout: 270, // suggested: slightly shorter than your scale-to-zero time
     max: 10, // note: Bun connects these clients all at once on startup
   });

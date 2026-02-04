@@ -19,7 +19,7 @@ const commonPgConfig = {
   user: clientId,
   host: pgHost,
   database: pgDb,
-  ssl: { rejectUnauthorized: true },
+  ssl: { rejectUnauthorized: true }, // check against public CAs, same as sslmode=verify-full
 };
 
 const apiCredentialsFn = () => fetchApiCredentials(oidcUrl, clientId, clientSecret);
@@ -29,44 +29,53 @@ const apiCredentialsFn = () => fetchApiCredentials(oidcUrl, clientId, clientSecr
  * fetches, caches, and refreshes an auth token lazily, only on demand. Use
  * this for non-time-sensitive applications, such as daemons processing queues
  * or background jobs.
+ * @param {{ claims?: any[]; expire_time?: string; group_name?: string; ttl?: string; }} params
+ * Lakebase Postgres authentication parameters: see documentation
  * @returns Postgres configuration parameters
  */
-export function onDemandConfig() {
-  const onDemandApiToken = cachedWithOnDemandRefresh(withRetries(apiCredentialsFn));
-  const onDemandPgCredentialsFn = () => fetchPgCredentials(pgTokenUrl, onDemandApiToken, projectBranchEndpoint);
-  const onDemandPostgresToken = cachedWithOnDemandRefresh(withRetries(onDemandPgCredentialsFn));
+export function onDemandConfig(params = {}) {
+  const onDemandApiTokenFn = cachedWithOnDemandRefresh(withRetries(apiCredentialsFn));
+  const onDemandPgCredentialsFn = () => fetchPgCredentials(pgTokenUrl, onDemandApiTokenFn, projectBranchEndpoint, params);
+  const onDemandPostgresTokenFn = cachedWithOnDemandRefresh(withRetries(onDemandPgCredentialsFn));
   return {
     ...commonPgConfig,
-    password: onDemandPostgresToken,
+    password: onDemandPostgresTokenFn,
   }
 };
 
 /**
- * Postgres configuration parameters including as async password function that
- * fetches and caches an auth token immediately, and refreshes it eagerly, 
- * before it expires (regardless of whether it is needed). Use this for
+ * Postgres configuration parameters including an async password function that
+ * has already fetched and cached an auth token and will refresh it eagerly,
+ * before it expires (regardless of whether it is used). Use this for
  * time-sensitive applications, such as user-facing websites and APIs.
+ * @param {{ claims?: any[]; expire_time?: string; group_name?: string; ttl?: string; }} params
+ * Lakebase Postgres authentication parameters: see documentation
  * @returns Postgres configuration parameters
  */
-export async function timedRefreshConfig() {
-  const timedRefreshApiToken = await cachedWithTimedRefresh(withRetries(apiCredentialsFn));
-  const timedRefreshPgCredentialsFn = () => fetchPgCredentials(pgTokenUrl, timedRefreshApiToken, projectBranchEndpoint);
-  const timedRefreshPostgresToken = await cachedWithTimedRefresh(withRetries(timedRefreshPgCredentialsFn));
+export async function timedRefreshConfig(params = {}) {
+  const timedRefreshApiTokenFn = await cachedWithTimedRefresh(withRetries(apiCredentialsFn));
+  const timedRefreshPgCredentialsFn = () => fetchPgCredentials(pgTokenUrl, timedRefreshApiTokenFn, projectBranchEndpoint, params);
+  const timedRefreshPostgresTokenFn = await cachedWithTimedRefresh(withRetries(timedRefreshPgCredentialsFn));
   return {
     ...commonPgConfig,
-    password: timedRefreshPostgresToken,
+    password: timedRefreshPostgresTokenFn,
   };
 }
 
 /**
  * Postgres configuration parameters including as async password function that
- * fetches and caches an auth token every time, without caching. Use only for
- * brief, one-shot applications such as shell scripts.
+ * fetches and caches an auth token every time, without caching. Suited only to
+ * brief, one-shot usage, and has no real advantages over the options above.
+ * @param {{ claims?: any[]; expire_time?: string; group_name?: string; ttl?: string; }} params
+ * Lakebase Postgres authentication parameters: see documentation
  * @returns Postgres configuration parameters
  */
-export function uncachedConfig() {
+export function uncachedConfig(params = {}) {
+  const uncachedApiTokenFn = uncached(withRetries(apiCredentialsFn));
+  const uncachedPgCredentialsFn = () => fetchPgCredentials(pgTokenUrl, uncachedApiTokenFn, projectBranchEndpoint, params);
+  const uncachedPostgresTokenFn = uncached(withRetries(uncachedPgCredentialsFn));
   return {
     ...commonPgConfig,
-    password: uncached(withRetries(apiCredentialsFn)),
+    password: uncachedPostgresTokenFn,
   };
 }

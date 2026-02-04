@@ -2,10 +2,13 @@
  * Fetches Lakebase Postgres credentials from Lakebase token endpoint
  * @param {string} apiUrl Lakebase Postgres token endpoint URL
  * @param {string | (() => string | Promise<string>)} apiToken OAuth access token
- * @param {string} endpoint Lakebase endpoint identifier: `projects/${projectId}/branches/${branchId}/endpoints/${endpointId}`
+ * @param {string} endpoint Lakebase endpoint identifier:
+ * `projects/${projectId}/branches/${branchId}/endpoints/${endpointId}`
+ * @param {{ claims?: any[]; expire_time?: string; group_name?: string; ttl?: string; }} params
+ * Additional Lakebase Postgres authentication parameters: see documentation
  * @returns {Promise<{ token: string, expires: Date }>} Lakebase Postgres credentials
  */
-export async function fetchPgCredentials(apiUrl, apiToken, endpoint) {
+export async function fetchPgCredentials(apiUrl, apiToken, endpoint, params = {}) {
   console.info(`${new Date().toISOString()} Fetching Lakebase Postgres auth token ...`);
 
   if (typeof apiToken === 'function') apiToken = await apiToken();
@@ -15,7 +18,10 @@ export async function fetchPgCredentials(apiUrl, apiToken, endpoint) {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apiToken}`,
     },
-    body: JSON.stringify({ endpoint }), // other parameters are available: see reference link above
+    body: JSON.stringify({ 
+      ...params,
+      endpoint,
+    }),
   });
   const credentials = await response.json();
 

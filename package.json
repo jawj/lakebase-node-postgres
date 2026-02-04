@@ -25,6 +25,9 @@
     "webapp-node": "node -r dotenv-expand/config src/webApp.js",
     "bgtask-bun": "bun run src/backgroundTask.js",
     "bgtask-deno": "deno run --env-file=.env --allow-env --allow-net src/backgroundTask.js",
-    "bgtask-node": "node -r dotenv-expand/config src/backgroundTask.js"
+    "bgtask-node": "node -r dotenv-expand/config src/backgroundTask.js",
+    "oneshot-bun": "bun run src/oneShotScript.js",
+    "oneshot-deno": "deno run --env-file=.env --allow-env --allow-net src/oneShotScript.js",
+    "oneshot-node": "node -r dotenv-expand/config src/oneShotScript.js"
   }
 }
