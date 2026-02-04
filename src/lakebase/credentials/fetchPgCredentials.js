@@ -1,6 +1,5 @@
 /**
- * Fetches Lakebase Postgres credentials from Lakebase token endpoint.
- * Reference: https://openapi.dev.databricks.com/api/workspace/postgres/generatedatabasecredential
+ * Fetches Lakebase Postgres credentials from Lakebase token endpoint
  * @param {string} apiUrl Lakebase Postgres token endpoint URL
  * @param {string | (() => string | Promise<string>)} apiToken OAuth access token
  * @param {string} endpoint Lakebase endpoint identifier: `projects/${projectId}/branches/${branchId}/endpoints/${endpointId}`

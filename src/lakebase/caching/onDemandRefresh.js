@@ -5,11 +5,9 @@ const farFutureEpoch = Infinity;
  * Returns an async function that provides a token that's refreshed on demand
  * if close to expiry
  * @param {() => Promise<{ token: string; expires: Date; }>} asyncRefreshFn
- * Async function to fetch new credentials + expiry info
- * @param {number} earlyRefreshSeconds
- * How far ahead of the expiry time to try renewing credentials
- * @returns {() => Promise<string>}
- * An async function that provides the cached token
+ * Async function to fetch new credentials
+ * @param {number} earlyRefreshSeconds How long before expiry to refresh
+ * @returns {() => Promise<string>} Async function that provides a cached token
  */
 export function cachedWithOnDemandRefresh(asyncRefreshFn, earlyRefreshSeconds = 180) {
   let refreshAfter = pastEpoch; // first call must refresh

@@ -3,10 +3,8 @@
  * background before it expires
  * @param {() => Promise<{ token: string; expires: Date; }>} asyncRefreshFn
  * Async function to fetch new credentials + expiry info
- * @param {number} earlyRefreshSeconds
- * How far ahead of the expiry time to try renewing credentials
- * @returns {Promise<() => string>}
- * A function that returns the cached token
+ * @param {number} earlyRefreshSeconds How long before expiry to refresh
+ * @returns {Promise<() => string>} A function that returns the cached token
  */
 export async function cachedWithTimedRefresh(asyncRefreshFn, earlyRefreshSeconds = 180) {
   let cachedToken = '';
