@@ -1,16 +1,26 @@
 {
   "name": "lakebase-js",
   "version": "0.1.0",
-  "description": "Lakebase JS/TS connection examples",
+  "description": "Lakebase JavaScript connection examples",
   "type": "module",
-  "keywords": [],
+  "keywords": [
+    "Databricks",
+    "Lakebase",
+    "Postgres",
+    "pg",
+    "node-postgres",
+    "postgres.js",
+    "Bun.SQL",
+    "JavaScript",
+    "TypeScript"
+  ],
   "author": "George MacKerron",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "packageManager": "pnpm@10.28.2",
   "dependencies": {
     "@hono/node-server": "^1.19.9",
     "dotenv-expand": "^12.0.3",
-    "hono": "^4.11.7",
+    "hono": "^4.11.9",
     "pg": "^8.18.0",
     "postgres": "^3.4.8"
   },
