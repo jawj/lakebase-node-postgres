@@ -19,8 +19,12 @@
   "packageManager": "pnpm@10.28.2",
   "dependencies": {
     "@hono/node-server": "^1.19.9",
+    "@prisma/adapter-pg": "^7.3.0",
+    "@prisma/client": "^7.3.0",
     "dotenv-expand": "^12.0.3",
+    "drizzle-orm": "^0.45.1",
     "hono": "^4.11.9",
+    "kysely": "^0.28.11",
     "pg": "^8.18.0",
     "postgres": "^3.4.8"
   },
@@ -30,6 +34,7 @@
     "@types/pg": "^8.16.0"
   },
   "scripts": {
+    "postinstall": "pnpx prisma generate",
     "webapp-bun": "bun run src/webApp.js",
     "webapp-deno": "deno run --env-file=.env --allow-env --allow-net src/webApp.js",
     "webapp-node": "node -r dotenv-expand/config src/webApp.js",
