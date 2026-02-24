@@ -25,7 +25,7 @@ const commonPgConfig = {
 const apiCredentialsFn = () => apiCredentials(oidcUrl, clientId, clientSecret);
 
 /**
- * Postgres configuration parameters including as async password function that
+ * Postgres configuration parameters including an async password function that
  * fetches, caches, and refreshes an auth token lazily, only on demand. Use
  * this for non-time-sensitive applications, such as daemons processing queues
  * or background jobs.
@@ -63,7 +63,7 @@ export async function timedRefreshConfig(params = {}) {
 }
 
 /**
- * Postgres configuration parameters including as async password function that
+ * Postgres configuration parameters including an async password function that
  * fetches and caches an auth token every time, without caching. Suited only to
  * brief, one-shot usage, and has no real advantages over the options above.
  * @param {{ claims?: any[]; expire_time?: string; group_name?: string; ttl?: string; }} params
