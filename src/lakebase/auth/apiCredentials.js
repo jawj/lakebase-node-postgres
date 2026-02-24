@@ -6,7 +6,7 @@
  * @param {string} clientSecret OAuth client secret
  * @returns {Promise<{ token: string, expires: Date }>} OAuth credentials
  */
-export async function fetchApiCredentials(oidcUrl, clientId, clientSecret) {
+export async function apiCredentials(oidcUrl, clientId, clientSecret) {
   console.info(`${new Date().toISOString()} Fetching API auth token ...`);
   
   const t0 = Date.now();

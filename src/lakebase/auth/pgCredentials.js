@@ -8,7 +8,7 @@
  * Additional Lakebase Postgres authentication parameters: see documentation
  * @returns {Promise<{ token: string, expires: Date }>} Lakebase Postgres credentials
  */
-export async function fetchPgCredentials(apiUrl, apiToken, endpoint, params = {}) {
+export async function pgCredentials(apiUrl, apiToken, endpoint, params = {}) {
   console.info(`${new Date().toISOString()} Fetching Lakebase Postgres auth token ...`);
 
   if (typeof apiToken === 'function') apiToken = await apiToken();
@@ -26,7 +26,7 @@ export async function fetchPgCredentials(apiUrl, apiToken, endpoint, params = {}
   const credentials = await response.json();
 
   if (!response.ok) {
-    const errorMessage = `Couldn't get Lakebase Postgres OAuth token: ${credentials.error_code} ${credentials.message}`;
+    const errorMessage = `${credentials.error_code} ${credentials.message}`;
     throw new Error(`Couldn't get Lakebase Postgres OAuth token: ${errorMessage}`);
   }
 

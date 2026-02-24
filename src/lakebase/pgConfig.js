@@ -1,5 +1,5 @@
-import { fetchApiCredentials } from './credentials/fetchApiCredentials.js';
-import { fetchPgCredentials } from './credentials/fetchPgCredentials.js';
+import { apiCredentials } from './auth/apiCredentials.js';
+import { pgCredentials } from './auth/pgCredentials.js';
 import { cachedWithOnDemandRefresh } from './caching/onDemandRefresh.js';
 import { cachedWithTimedRefresh } from './caching/timedRefresh.js';
 import { uncached } from './caching/uncached.js';
@@ -22,7 +22,7 @@ const commonPgConfig = {
   ssl: { rejectUnauthorized: true }, // check against public CAs, same as sslmode=verify-full
 };
 
-const apiCredentialsFn = () => fetchApiCredentials(oidcUrl, clientId, clientSecret);
+const apiCredentialsFn = () => apiCredentials(oidcUrl, clientId, clientSecret);
 
 /**
  * Postgres configuration parameters including as async password function that
@@ -35,7 +35,7 @@ const apiCredentialsFn = () => fetchApiCredentials(oidcUrl, clientId, clientSecr
  */
 export function onDemandConfig(params = {}) {
   const onDemandApiTokenFn = cachedWithOnDemandRefresh(withRetries(apiCredentialsFn));
-  const onDemandPgCredentialsFn = () => fetchPgCredentials(pgTokenUrl, onDemandApiTokenFn, projectBranchEndpoint, params);
+  const onDemandPgCredentialsFn = () => pgCredentials(pgTokenUrl, onDemandApiTokenFn, projectBranchEndpoint, params);
   const onDemandPostgresTokenFn = cachedWithOnDemandRefresh(withRetries(onDemandPgCredentialsFn));
   return {
     ...commonPgConfig,
@@ -54,7 +54,7 @@ export function onDemandConfig(params = {}) {
  */
 export async function timedRefreshConfig(params = {}) {
   const timedRefreshApiTokenFn = await cachedWithTimedRefresh(withRetries(apiCredentialsFn));
-  const timedRefreshPgCredentialsFn = () => fetchPgCredentials(pgTokenUrl, timedRefreshApiTokenFn, projectBranchEndpoint, params);
+  const timedRefreshPgCredentialsFn = () => pgCredentials(pgTokenUrl, timedRefreshApiTokenFn, projectBranchEndpoint, params);
   const timedRefreshPostgresTokenFn = await cachedWithTimedRefresh(withRetries(timedRefreshPgCredentialsFn));
   return {
     ...commonPgConfig,
@@ -72,7 +72,7 @@ export async function timedRefreshConfig(params = {}) {
  */
 export function uncachedConfig(params = {}) {
   const uncachedApiTokenFn = uncached(withRetries(apiCredentialsFn));
-  const uncachedPgCredentialsFn = () => fetchPgCredentials(pgTokenUrl, uncachedApiTokenFn, projectBranchEndpoint, params);
+  const uncachedPgCredentialsFn = () => pgCredentials(pgTokenUrl, uncachedApiTokenFn, projectBranchEndpoint, params);
   const uncachedPostgresTokenFn = uncached(withRetries(uncachedPgCredentialsFn));
   return {
     ...commonPgConfig,
